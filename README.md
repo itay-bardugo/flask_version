@@ -2,7 +2,7 @@
 
 ## install
 ```python
-pip install itay_bardugo/flask_version -U
+pip install itay-bardugo-flask-version
 ```
 
 ## Brief
