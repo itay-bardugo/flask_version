@@ -11,6 +11,7 @@ FlaskVersion is a package that helps handle endpoints versions.
 ## What it solves
 assume we have the route
 /api/`<verrsion>`/output/print
+
 which returns "Hello" to the client.
 
 with Flask it equals to
