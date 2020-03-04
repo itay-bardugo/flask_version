@@ -25,16 +25,21 @@ as we can see, `<version>` is a variable which describes our route version.
 it can be
 `1.0`, `1.1`, `1.2` etc...
 
-what if our server is already serves clients that request this route in version `1.0`, but we want to add an extra feature to this route, which will be visible only in version `1.1`
+what if our server is already serves clients that ask for this route
+in version `1.0`, but, we want to add an extra feature to this route, which will be visible only in version `1.1`
 
-we can publish a new route:
+we can define a new route for this problem:
 ```python
 @app.route("/api/<verrsion>/output/print_new")
 def print():
     return "Hello new feature!"
 ```
-but its annoying. we dont want to add so many routes for each feture that will be added to our program.
+but we dont want to add a new route for each new feature.
+
+it will be hard to maintain our endpoints and can be a little bit confusing.
+
 this is what `FlaskVersion` built for!
+
 `FlaskVersion` manages your endpoints by linking each method to one or more version in a few simple steps!
   - Easy to use
   - Easy to maintain
