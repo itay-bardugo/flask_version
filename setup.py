@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="flask_version",
+    name="itay-bardugo/flask_version",
     version="0.0.1",
     author="Itay Bardugo",
     author_email="itaybardugo91@gmail.com",
