@@ -34,11 +34,11 @@ we can define a new route for this problem:
 def print():
     return "Hello new feature!"
 ```
-but we dont want to add a new route for each new feature.
+but we dont want to add new routes for each new feature.
 
 it will be hard to maintain our endpoints and can be a little bit confusing.
 
-this is what `FlaskVersion` built for!
+this is what `FlaskVersion` was built for!
 
 `FlaskVersion` manages your endpoints by linking each method to one or more version in a few simple steps!
   - Easy to use
@@ -95,7 +95,7 @@ def old():
 Thats it, `FlaskVersion` does the job for you and it will route to your
 correct endpoint according to the version input
 
-# Stucture
+# Structure
 basically, it does not matter how you structed your project.
 you just have to make sure to follow this structure and `FlaskVersion` will work correctly.
 The main idea is to create a new `versions` folder (with an \__init__.py) at the same path where you defined
