@@ -8,18 +8,10 @@ class TestBase(TestCase):
         @register_version_getter
         def get_version():
             return "1.2"
-
-        x = endpoints.endpoint_a()
-        print(x)
-        if x != "current version!":
-            self.fail()
+        self.assertEqual(endpoints.endpoint_a(), "current version!")
 
     def test_old_vresion(self):
         @register_version_getter
         def get_version():
             return "1.0"
-
-        x = endpoints.endpoint_a()
-        print(x)
-        if x != "i am an endpoint for version 1.0":
-            self.fail()
+        self.assertEqual(endpoints.endpoint_a(), "i am an endpoint for version 1.0")
