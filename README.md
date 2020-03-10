@@ -46,7 +46,8 @@ this is what `FlaskVersion` was built for!
 
 ## How to use
 All you need to do is:
-1. define a callable which returns the current request version before each request
+
+1 . define a callable which returns the current request version before each request
 
 ```python
 #  main_routes.py
@@ -67,7 +68,9 @@ def before_each_request():
     def version_detector():
         return g.version # i.g 1.2 (the newest version)
 ```
-2. tell to `FlaskVersion` to apply versions on specific route
+
+2 . tell to `FlaskVersion` to apply versions on specific route
+
 ```python
 # ouput_routes.py
 from flask_version import dispatch
@@ -78,7 +81,7 @@ def print():
     #the old versions will be defined in other place
     return "Hello new feature!"
 ```
-3. set the older versions
+3 . set the older versions
 ```python
 #versions/print.py (important: its called print.py becuase we used @dispatch on print() function
 # please note: the structrue is
