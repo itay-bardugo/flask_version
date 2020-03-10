@@ -24,7 +24,10 @@ class VersionConfig:
 
     def get_versioned_module(self):
         filename = self.get_file_name()
-        return filename[:filename.rfind(os.path.sep)+1]+f"versions{os.path.sep}{self._caller_method.__name__}.py"
+        return filename[:filename.rfind(os.path.sep) + 1] + f"versions{os.path.sep}{self.get_version_filename()}.py"
+
+    def get_version_filename(self):
+        return self._caller_method.__name__
 
     def get_key(self):
         return self.get_versioned_module()

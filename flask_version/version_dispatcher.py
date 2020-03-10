@@ -14,7 +14,7 @@ class Dispatcher(metaclass=Singleton):
 
     def _has_match(self, ns):
         version_config = self._get_namespace(ns)
-        spec = importlib.util.spec_from_file_location("versions", version_config.get_versioned_module())
+        spec = importlib.util.spec_from_file_location(version_config.get_version_filename(), version_config.get_versioned_module())
         module = importlib.util.module_from_spec(spec)
         try:
             spec.loader.exec_module(module)
