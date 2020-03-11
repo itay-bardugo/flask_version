@@ -25,7 +25,7 @@ as we can see, `<version>` is a variable which describes our route version.
 it can be
 `1.0`, `1.1`, `1.2` etc...
 
-what if our server is already serves clients that ask for this route
+what if our server serves clients that ask for this route
 in version `1.0`, but, we want to add an extra feature to this route, which will be visible only in version `1.1`
 
 we can define a new route for this problem:
