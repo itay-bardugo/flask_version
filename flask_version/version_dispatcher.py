@@ -62,7 +62,7 @@ class Dispatcher(metaclass=Singleton):
 
         return versioned
 
-    def register_version_getter(self, fn):
+    def register_version(self, fn):
         self._request_version = fn
 
         def wrapper():

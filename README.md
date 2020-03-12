@@ -51,7 +51,7 @@ All you need to do is:
 
 ```python
 #  main_routes.py
-from flask_version import register_version_getter
+from flask_version import register_version
 
 # set g.version to use it in our app
 @app.url_value_preprocessor
@@ -64,7 +64,7 @@ def dependencies(endpoint, values):
 @app.before_request
 def before_each_request():
     # register our version detector into flask_version component
-    @register_version_getter
+    @register_version
     def version_detector():
         return g.version # i.g 1.2 (the newest version)
 ```
