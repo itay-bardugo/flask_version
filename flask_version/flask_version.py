@@ -6,15 +6,26 @@ from .exceptions import StopMatchException, VersionIdentifierException
 from .interfaces import VersionConfig
 
 
-class Dispatcher(metaclass=Singleton):
+class FlaskVersion(metaclass=Singleton):
     _namespaces = {}
 
-    def __init__(self):
+    def __init__(self, app=None, version_identifier=None):
         self._request_version = None
+        self._app = None
+
+        if app is not None:
+            self.init_app(app, version_identifier)
+
+    def init_app(self, app, version_identifier=None):
+        self._app = app
+        app.versions_dispatcher = self
+        if version_identifier is not None:
+            self.register_version_identifier(version_identifier)
 
     def _has_match(self, ns):
         version_config = self._get_namespace(ns)
-        spec = importlib.util.spec_from_file_location(version_config.get_version_filename(), version_config.get_versioned_module())
+        spec = importlib.util.spec_from_file_location(version_config.get_version_filename(),
+                                                      version_config.get_versioned_module())
         module = importlib.util.module_from_spec(spec)
         try:
             spec.loader.exec_module(module)
@@ -44,8 +55,8 @@ class Dispatcher(metaclass=Singleton):
         self._namespaces[key] = version_config
         return key
 
-    def dispatch(self, source_fn):
-        frame = inspect.stack()[1]
+    def dispatch(self, source_fn, frame_level=1):
+        frame = inspect.stack()[frame_level]
 
         @wraps(source_fn)
         def versioned(*args, **kwargs):
@@ -62,10 +73,17 @@ class Dispatcher(metaclass=Singleton):
 
         return versioned
 
-    def register_version(self, fn):
-        self._request_version = fn
+    def register_version_identifier(self, fn):
+        if not callable(fn):
+            raise Exception("arg fn must be a callable")
 
-        def wrapper():
-            return fn()
+        app = self._app
 
-        return wrapper
+        @app.before_request
+        def wrapper(*args, **kwargs):
+            self._request_version = fn
+
+        return fn
+
+    def get_app_context(self):
+        return self._app.app_context()

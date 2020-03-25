@@ -46,53 +46,57 @@ this is what `FlaskVersion` was built for!
 
 ## How to use
 All you need to do is:
-
-1 . define a callable which returns the current request version before each request
-
+1. make a anew app
 ```python
-#  main_routes.py
-from flask_version import register_version
-
-# set g.version to use it in our app
-@app.url_value_preprocessor
-def dependencies(endpoint, values):
-    if values:
-        g.version = values.pop("version", "1.2")
-
-
-# init data before request
-@app.before_request
-def before_each_request():
-    # register our version detector into flask_version component
-    @register_version
-    def version_detector():
-        return g.version # i.g 1.2 (the newest version)
+    # app.py
+    from flask import Flask
+    app = Flask(__name__)
 ```
 
-2 . tell to `FlaskVersion` to apply versions on specific route
+
+2 . make a new callback that returns the version for the current incoming request
+```python
+    # app.py
+    @app.url_value_preprocessor
+    def url_process(endpoint, values):
+        if values:
+            g.version = values.pop("version", "1.0")
+    
+    def get_version():
+        return g.version
+```
+
+3 . make a new instance of FlaskVersion, with your app instance and your version handler callback  
+```python
+    # app.py
+    from flask_version import FlaskVersion
+    flask_version = FlaskVersion(app, url_process)
+```
+
+4 . tell to `FlaskVersion` to apply versions on specific route
 
 ```python
-# ouput_routes.py
-from flask_version import dispatch
-@app.route("/api/<verrsion>/output/print")
-@dispatch # the dispatch decorator tells to FlaskVersion that this method supports older versions
-def print():
-    # this is the most updated method(latest version).
-    #the old versions will be defined in other place
-    return "Hello new feature!"
+# routes.py
+from flask_version.utils import dispatch
+
+@app.route("/<version>")
+@dispatch
+def endpoint_a():
+    # this is the latest version of the function.
+    return "current version!"
 ```
-3 . set the older versions
+5 . set the older versions
 ```python
-#versions/print.py (important: its called print.py becuase we used @dispatch on print() function
-# please note: the structrue is
+# versions/endpoint_a.py (important: its called endoint_a.py becuase we used @dispatch on print() function
+# please note: the structure is
 # {specific_routes_folder}/versions/{function_name}.py
-from flask_version import apply_version
+from flask_version.utils import support_version
 
-# this decorator tells to FlaskVersion to apply old() on version "1.0" and "1.1"
-@apply_version("1.0")
-@apply_version("1.1")
-def old():
-    return "i am the old version of this route"
+
+@support_version("1.0")
+def version_a():
+    return "i am an endpoint for version 1.0"
+
 
 ```
 Thats it, `FlaskVersion` does the job for you and it will route to your
