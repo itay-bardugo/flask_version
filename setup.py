@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="itay_bardugo/flask_version",
-    version="0.2.0",
+    version="1.0.0",
     author="Itay Bardugo",
     author_email="itaybardugo91@gmail.com",
     description="a package to handle flask routes endpoints by versions",
