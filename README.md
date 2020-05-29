@@ -10,14 +10,14 @@ FlaskVersion is a package that helps handle endpoints versions.
 
 ## What it solves
 assume we have the route
-/api/`<version>`/output/print
+/api/`<version>`/output/endpoint_a
 
 which returns "Hello" to the client.
 
 with Flask it equals to
 ```python
-@app.route("/api/<verrsion>/output/print")
-def print():
+@app.route("/api/<verrsion>/output/endpoint_a")
+def endpoint_a():
     return "Hello"
 ```
 
@@ -26,15 +26,15 @@ it can be
 `1.0`, `1.1`, `1.2` etc...
 
 what if our server serves clients that ask for this route
-in version `1.0`, but, we want to add an extra feature to this route, which will be visibled only in version `1.1`
+in version `1.0`, but we want to add an extra feature to this route, that belongs to version `1.1` only (wihtout changing `1.0`)
 
 we can define a new route for this problem:
 ```python
-@app.route("/api/<verrsion>/output/print_new")
-def print():
+@app.route("/api/<verrsion>/output/endoint_b")
+def endpoint_a():
     return "Hello new feature!"
 ```
-but we dont want to add new routes for each new feature.
+but we don't want to add new routes for each new feature.
 
 it will be hard to maintain our endpoints and can be a little bit confusing.
 
@@ -46,17 +46,17 @@ this is what `FlaskVersion` was built for!
 
 ## How to use
 All you need to do is:
-1. make a anew app
+1. make a new app
 ```python
-    # app.py
+    # routes.py
     from flask import Flask
     app = Flask(__name__)
 ```
 
 
-2 . make a new callback that returns the version for the current incoming request
+2 . make a new callback that returns the version of the current incoming request
 ```python
-    # app.py
+    # routes.py
     @app.url_value_preprocessor
     def url_process(endpoint, values):
         if values:
@@ -68,7 +68,7 @@ All you need to do is:
 
 3 . make a new instance of FlaskVersion, with your app instance and your version handler callback  
 ```python
-    # app.py
+    # routes.py
     from flask_version import FlaskVersion
     flask_version = FlaskVersion(app, url_process)
 ```
@@ -87,9 +87,9 @@ def endpoint_a():
 ```
 5 . set the older versions
 ```python
-# versions/endpoint_a.py (important: its called endoint_a.py becuase we used @dispatch on print() function
+# versions/endpoint_a.py (important: its called endoint_a.py becuase we used @dispatch on endpoint_a() function
 # please note: the structure is
-# {specific_routes_folder}/versions/{function_name}.py
+# {route directory}/versions/{function_name}.py
 from flask_version.utils import support_version
 
 
@@ -117,10 +117,9 @@ and then, create a file inside `versions` with the same name (in this case `acti
 ## Example to Structre A:
 ```
 +-- project
-|   +-- main_routes.py
-|   +-- output_routes.py
+|   +-- routes.py
 |   +-- versions
-|       +-- print.py
+|       +-- endpoint_a.py
 
 ```
 ## Example to Structre B:
