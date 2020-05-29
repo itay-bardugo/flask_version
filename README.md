@@ -26,7 +26,7 @@ it can be
 `1.0`, `1.1`, `1.2` etc...
 
 what if our server serves clients that ask for this route
-in version `1.0`, but we want to add an extra feature to this route, that belongs to version `1.1` only (wihtout changing `1.0`)
+in version `1.0`, but we want to add an extra feature to this route, that belongs to version `1.1` only (without changing `1.0`)
 
 we can define a new route for this problem:
 ```python
@@ -79,7 +79,7 @@ All you need to do is:
 # routes.py
 from flask_version.utils import dispatch
 
-@app.route("/<version>")
+@app.route("/endpoint_a")
 @dispatch
 def endpoint_a():
     # this is the latest version of the function.
