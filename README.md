@@ -70,7 +70,7 @@ All you need to do is:
 ```python
     # routes.py
     from flask_version import FlaskVersion
-    flask_version = FlaskVersion(app, url_process)
+    flask_version = FlaskVersion(app, get_version)
 ```
 
 4 . tell to `FlaskVersion` to apply versions on specific route
